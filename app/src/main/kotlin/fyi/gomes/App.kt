@@ -3,13 +3,31 @@
  */
 package fyi.gomes
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
+import com.slack.api.Slack
+import io.ktor.application.*
+import io.ktor.http.*
+import io.ktor.request.*
+import io.ktor.response.*
+import io.ktor.routing.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+
+fun Application.configureRouting() {
+    routing {
+        get("/") { call.respondText("HEllotard!!!!") }
+        get("/slack") {
+            val token = "TOKEN"
+            val slack = Slack.getInstance()
+            val response =
+                    slack.methods(token).chatPostMessage {
+                        it.channel("#general").text("This is a slack bot")
+                    }
+
+            call.respondText("Response is: $response")
         }
+    }
 }
 
 fun main() {
-    println(App().greeting)
+    embeddedServer(Netty, port = 8080, host = "0.0.0.0") { configureRouting() }.start(wait = true)
 }

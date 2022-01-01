@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
@@ -34,6 +35,14 @@ dependencies {
 
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+
+    implementation("io.ktor:ktor-server-core:1.6.7")
+    implementation("io.ktor:ktor-server-netty:1.6.7")
+
+    val slack_version = "1.2.1"
+    implementation("com.slack.api:slack-api-client:$slack_version")
+    implementation("com.slack.api:slack-api-model-kotlin-extension:$slack_version")
+    implementation("com.slack.api:slack-api-client-kotlin-extension:$slack_version")
 }
 
 application {
